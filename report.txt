@@ -1,0 +1,253 @@
+
+//------BNF notation of yacc file of my program-------\\
+
+<START>::= <begin_t> <end_t>
+        | <begin_t> <STMTS> <end_t>
+<STMTS>::= <STMTS> <STMT>
+        | <STMT>
+
+<STMT>::= <IF_STMT>
+        | <WHILE_STMT>
+        | <FOR_STMT>
+        | <VAR_DEC>
+        | <ARITHMETIC_OPR>
+        | <VAR>
+        | <ASSIGNMENT_OPR>
+        | <PRINTING>
+        | <SCANF>
+
+<IF_STMT>::= <if_t> <COMPARISON_EXPR> <lbracklet_t> <STMTS> <rbracklet_t>
+        | <if_t> <COMPARISON_EXPR> <lbracklet_t> <STMTS> <rbracklet_t> <ELSE_STMT> 
+        
+<ELSE_STMT>::= <else_t> <lbracklet_t> <STMTS> <rbracklet_t>
+        
+<WHILE_STMT>::= <while_t> <COMPARISON_EXPR> <lbracklet_t> <STMTS> <rbracklet_t> 
+        
+<FOR_STMT>::= <for_t> <ASSIGNMENT_OPR> <comma_t> <COMPARISON_EXPR> <lbracklet_t> <STMTS> <rbracklet_t>
+        
+<COMPARISON_EXPR>::= <LHS> <EQUALITY> <EXPRESSIONS> 
+        | <LHS> <EQUALITY> <EXPRESSIONS> <LOGICAL_OPR> <LHS> <EQUALITY> <EXPRESSIONS>
+        | <ASSIGNMENT_OPR> <EQUALITY> <EXPRESSIONS>
+        | <ASSIGNMENT_OPR> <EQUALITY> <EXPRESSIONS> <LOGICAL_OPR> <LHS> <EQUALITY> <EXPRESSIONS>
+        | <ASSIGNMENT_OPR> <EQUALITY> <EXPRESSIONS> <LOGICAL_OPR> <ASSIGNMENT_OPR> <EQUALITY> <EXPRESSIONS>
+        | <ASSIGNMENT_OPR> <EQUALITY> <ASSIGNMENT_OPR>
+        | <EXPRESSIONS> <LOGICAL_OPR> <EXPRESSIONS>
+        | <ASSIGNMENT_OPR> <LOGICAL_OPR> <ASSIGNMENT_OPR>
+
+<LOGICAL_OPR>::= <and_t>
+        | <or_t>
+        | <not_t>
+        
+<EQUALITY>::= <eq_equal_t>
+        | <less_t>
+        | <greater_t>
+        | <eq_less_t>
+        | <eq_greater_t>
+        | <not_equal_t>
+        
+<EXPRESSIONS>::= <VAR>
+        | <INTEGER>
+        | <FLOAT>
+        
+<ASSIGNMENT_OPR>::= <LHS> <equal_t> <RHS>
+        
+<VAR_DEC>::= <TYPE_DEC> <colon_t> <VAR>
+        
+
+<LHS>::=    <VAR> 
+        | <VAR_DEC>
+        
+RHS::= <EXPRESSIONS>
+        | <ARITHMETIC_OPR>
+        
+<ARITHMETIC_OPR>::= <EXPRESSIONS> <MATH_OPERATORS> <EXPRESSIONS> 
+        
+MATH_OPERATORS::= <plus_t>
+        | <minus_t>
+        | <divide_t>
+        | <mod_t>
+        | <multi_t>
+        
+<SCANF>::= <scanf>_t <less_t> <VAR> <greater_t>
+        
+<PRINTING>::= <print_t> <LHS>
+        | <print_t> <ASSIGNMENT_OPR>
+        
+TYPE_DEC::= <int_t>
+        | <float_t>
+        | <char_t>
+
+--------------------------------------------------------------------------------------------------------
+BNF notation of lex file of my program
+
+"begin"::= <begin_t>
+"end"::= <end_t>
+"while"::= <while_t>
+"if"::= <if_t>
+"else"::= <else_t>
+"for"::= <for_t>
+"get"::= <scanf_t>
+"print"::= <print_t>
+"int"::= <int_t>
+"float"::= <float_t>
+"char"::= <char_t>
+"("::= <lbracklet_t>
+")"::= <rbracklet_t>
+":"::= <colon_t>
+">"::= <semicolon_t>
+","::= <comma_t>
+"."::= <dot_t>
+"{"::= <lcurlyb_t>
+"}"::= <rcurlyb_t>
+"="::= <equal_t>
+"!="::= <not_equal_t>
+"&&"::= <and_t>
+"||"::= <or_t>
+"!"::= <not_t>
+">"::= <greater_t>
+"<"::= <less_t>
+"=="::= <eq_equal_t>
+"=>"::= <eq_greater_t>
+"<="::= <eq_less_t>
+"+"::= <plus_t>
+"-"::= <minus_t>
+"/"::= <divide_t>
+'*'::= <multi_t>
+'%'::= <mod_t>
+<[ \t\n]>
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" 
+<letter>    ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<letter>::= <CHAR>
+<[+-]>{digit}::= <INTEGER>
+<letter> | {<letter> | <digit>}::= <VAR>
+<[+-]>{digit} "." {digit}::= <FLOAT> 
+
+-----------------------------------------------------------------------------------------------------------------
+
+-----Rules of programming language------
+program;
+has 3 different type of data "int" , "float" , "char"
+has 2 loops "while" and "for"
+has conditional statments "if" and "else"
+printf function: print VAR
+scanf function: get <VAR>
+
+---symbols of my program----
+
+"(" return lbracklet_t;		lef bracklet
+")" return rbracklet_t;		right bracklet
+":" return colon_t;		colon
+";" return semicolon_t;		semicolon
+"," return comma_t;		comma
+"." return dot_t;		dot
+"{" return lcurlyb_t;		left curlybracklet
+"}" return rcurlyb_t;		right curlybracklet
+"=" return equal_t;		equal symbol
+"!=" return not_equal_t;	noy equal symbol
+"&&" return and_t;		and operator
+"||" return or_t;		or operator
+"!" return not_t;		not operator
+">" return greater_t;		greater sign
+"<" return less_t;		less sign
+"==" return eq_equal_t;		double equal sign
+"=>" return eq_greater_t;	greater or equal sign
+"<=" return eq_less_t;		less or equal sign
+"+" return plus_t;		addition sign
+"-" return minus_t;		subtraction sign
+"/" return divide_t;		division sign
+'*' return multi_t;		multiplication sign
+[ \t\n]        ignores whitespace
+[a-zA-Z]   return CHAR; returns letter "A" | "a" | ------ "Z" | "z" 
+[+-]?[0-9]+ return INTEGER; returns one or more then one integer digits (ex. 9 or 99)
+[+-]?[0-9]*(\.)[0-9]+ return FLOAT; returns one or more then one float digits 
+(ex. 9.0 or 99.2)
+[+-] show sign of digit
+[a-zA-z]([a-zA-Z]|[0-9])* return VAR; alphanumeric strings 
+
+1-Program must start with "begin" and end with "end"
+
+2-Variable declaration <type of data> <:> (whether with space nor without space) <variable name>   ( int: irem )
+
+3-Variables can be assigned while declaration ( int: irem= exprs ) 
+
+4-Variables name CANNOT be one letter ( int: i ) it must be more then one letters ( int: irem )
+
+5-Variables name CANNOT start with digits or contains any symbols ( char: 9irem or char: i_rem) it must be start with letter after it would contains digits or letters
+( char: i9rem )
+
+6-Printing on the secreen <print> <var_name> or <exprs>  ( print irem or print 5 + 5)
+
+7-Get some input from user <get> <<var_name>> ( get <var_name> )
+
+8-For math operations <exprs> <space> <math_oprts> <space> <exprs> ( value=5 + 5 ) /* it wouldbe written by space between exprs and operators*/
+
+9-Arithmetic operations according to presedence and associavity ( it's showns down below )
+
+10-Arithmetic operations MUST NOT be more then two operations at the same time ( Syntax error: value=2 * (5 + 8 - 1) )
+
+11-IF/ELSE stmts: if <comparison_expr> <(> <stmts> <)> ( if 6<7 ( print name) )
+or if <comparison_expr> <(> <stmts> <)> 
+<else> <(> <stmts> <)>  
+( if xx<yy ( print xx)
+else ( print yy ) ) 
+/* Program can execute FOR/WHILE loops and other all assignment into IF stmt
+/* We can declarete new variable while create IF stmt conditions
+/* We can just compared one logical expressions ( if irem && irem1 )
+( if int:irem=6 < int: irem1<8)
+
+12-WHILE stmt while <comparison_expr> <(> <stmts> <)> (while xx==yy ( print name) )
+/* Program can execute IF/FOR stmts and other all assignment into WHILE loop
+/* We can declarete new variable while create WHILE stmt conditions
+
+13- FOR stmt for <assignment_oprts> <,> <comparison_expr> <(> <stmts> <)>
+for value=0 , 0<2   /* we can declarete value while for stmt ( for int: x=0 , x<2 )
+( print value
+  value= value+1 )
+/* Program can execute IF/WHILE stmts and other all assignment into FOR body
+
+
+14-There are six EQUALITY expressions "<" , <=" , ">" , "=>" , "==" , "!="
+
+15-There are five Mathematical operasitons "+" , "-" , "*" , "%" , "/"
+/* We would doing Math operations with different types of data ( <int> <+,-,/,%> <float> ) answer should be float type
+
+16-There are three Logical operations "&&" , "||" , "!"
+<&&>: both exprs should be true 
+<||>: one of exprs should be true
+<!>: none of them should be true
+
+17-LHS (left hand side) is include <Var> or <Var_dec>
+
+18-RHS(right hand side) is include <arithmetic_operators> or <expressions>
+
+19-Assignment expression is LHS=RHS */CANNOT change the placeses 
+( Syntax error: RHS=LHS ) 
+/* We CANNOT assign <integer> or <float> expressions ( Syntax error: 9=5 + 5 ) */
+/* We can assign value while declaration ( int: xx= 5 + 5 )
+/* We CANNOT assign "==" symbol ( Syntax error: int: yy==5 + 5 )
+
+20-We can declarete and also assigned new variable while IF/WHILE conditions 
+( if int: value=5< int value2=6 )
+
+21-Expressions are <Var> or <Integer> or <float>
+
+22-Program can also compared with two strings ( char: irem < char: iremp)
+
+23-If the new value not assigned program suppose the value assigned to zero
+(int: irem
+value= irem + 2 /* value should be 2)
+
+
+----------Presedence and Associavity rules----------
+
+/* from Most presedence to less presedence */
+
+"(",")" left to right
+"*","/" left to right
+"+","-" left to right
+"<" , "<=" , ">" , "=>" left to right
+"==" , "!="  left to right
+"&&" , "||" left to right
+"=" right yo left
+
+
